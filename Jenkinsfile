@@ -14,12 +14,6 @@ pipeline {
 
     stages {
 
-        stage('Checkout Code') {
-            steps {
-                git 'https://github.com/dvrkgit/projectbuild.git'
-            }
-        }
-
         stage('Build WAR using Maven') {
             steps {
                 sh '''
@@ -42,7 +36,7 @@ pipeline {
 
     post {
         success {
-            echo "CI/CD Pipeline executed successfully"
+            echo "Pipeline success"
         }
         failure {
             echo "Pipeline failed"
