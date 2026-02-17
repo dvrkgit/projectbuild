@@ -8,12 +8,6 @@ pipeline {
 
     stages {
 
-        stage('Checkout') {
-            steps {
-                git 'https://github.com/dvrkgit/projectbuild.git'
-            }
-        }
-
         stage('Build WAR') {
             steps {
                 sh 'mvn clean package'
@@ -41,4 +35,3 @@ pipeline {
         }
     }
 }
-
