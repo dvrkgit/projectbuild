@@ -27,8 +27,9 @@ pipeline {
             steps {
                 sh '''
                 curl -v -u tomcat:tomcat \
-                -T target/*.war \
-                "$TOMCAT_URL/deploy?path=/$APP_NAME&update=true"
+--upload-file target/hello-world.war \
+http://tomcat:8080/manager/text/deploy?path=/hello&update=true
+
                 '''
             }
         }
