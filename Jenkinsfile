@@ -1,53 +1,44 @@
 pipeline {
-
     agent any
 
     tools {
-        jdk 'JDK11'
         maven 'Maven'
-    }
-
-    environment {
-        TOMCAT_URL = "http://tomcat:8080/manager/text"
-        APP_NAME   = "hello"
+        jdk 'JDK11'
     }
 
     stages {
 
-        stage('Checkout Code') {
+        stage('Checkout') {
             steps {
                 git 'https://github.com/dvrkgit/projectbuild.git'
             }
         }
 
-        stage('Build WAR using Maven') {
+        stage('Build WAR') {
             steps {
-                sh '''
-                mvn clean package
-                ls -l target
-                '''
+                sh 'mvn clean package'
             }
         }
 
-        stage('Deploy WAR to Tomcat') {
-    steps {
-        sh '''
-        curl -f -u tomcat:tomcat \
-        -X POST \
-        --data-binary @target/hello-world.war \
-        "http://tomcat:8080/manager/text/deploy?path=/hello&update=true"
-        '''
+        stage('Deploy WAR') {
+            steps {
+                sh '''
+                curl -f -u tomcat:tomcat \
+                -X POST \
+                --data-binary @target/hello-world.war \
+                "http://tomcat:8080/manager/text/deploy?path=/hello&update=true"
+                '''
+            }
+        }
     }
-}
-
 
     post {
         success {
-            echo "✅ CI/CD Pipeline executed successfully"
+            echo 'Pipeline SUCCESS'
         }
         failure {
-            echo "❌ Pipeline failed"
+            echo 'Pipeline FAILED'
         }
     }
 }
-}
+
