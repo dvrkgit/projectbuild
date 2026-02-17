@@ -26,9 +26,12 @@ pipeline {
         stage('Deploy WAR to Tomcat') {
             steps {
                 sh '''
-                curl -v -u tomcat:tomcat \
---upload-file target/hello-world.war \
-http://tomcat:8080/manager/text/deploy?path=/hello&update=true
+curl -v -u tomcat:tomcat \
+-X POST \
+--data-binary @target/hello-world.war \
+"http://tomcat:8080/manager/text/deploy?path=/hello&update=true"
+'''
+
 
                 '''
             }
